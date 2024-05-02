@@ -7,6 +7,7 @@ import { typeDefs } from "./schema";
 import { resolvers } from "./resolver";
 import * as userSchema from "./db/user";
 import * as bookSchema from "./db/book";
+import * as groupSchema from './db/group';
 import { ServerContext } from "./types/ServerContext";
 import { getUserFromToken } from "./controllers/user";
 
@@ -20,7 +21,7 @@ async function dbConnect() {
 dbConnect();
 
 export const db = drizzle(client, {
-  schema: { ...userSchema, ...bookSchema },
+  schema: { ...userSchema, ...bookSchema ,...groupSchema},
   logger: true,
 });
 

@@ -48,6 +48,14 @@ input BookInput{
   title:String!
 }
 
+type Groups{
+  id:Int!
+  name:String!
+}
+input GroupInput{
+  name:String!
+}
+
 type UserSelect{
     id:Int!
     name:String!
@@ -67,6 +75,7 @@ input UserLogin{
 
 type Query {
   getBooks: [Book!]!
+  getGroups:[Groups!]!
 }
 
 type UserLoginResponse{
@@ -74,9 +83,18 @@ type UserLoginResponse{
   token:String!
 }
 
+
+
+input AddUsersToGroup{
+  userIds:[Int!]!
+  groupId:Int
+}
+
 type Mutation{
     registerUser(User:InputUserRegister!):UserSelect
     userLogin(User:UserLogin):UserLoginResponse!
     addBooks(books:[BookInput!]!):[Book!]!
+    addGroups(groups:[GroupInput!]!):[Groups!]!
+    addUsersToGroup(input:AddUsersToGroup):Int!
   }
 `;

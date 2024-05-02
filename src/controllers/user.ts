@@ -85,7 +85,6 @@ export const getUserFromToken = (token: string) => {
     console.log(data);
     return data?.user;
   } catch (e: any) {
-    console.log(JSON.stringify(e));
     if(e.message === 'jwt expired' && e.name === "TokenExpiredError"){
       throw new GraphQLError("Session Expired", {
         extensions: {
