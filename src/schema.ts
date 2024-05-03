@@ -7,8 +7,8 @@ export const typeDefs = `#graphql
   }
 
   input IntFilter {
-    equals: Int
-    not: Int
+    eq: Int
+    nt: Int
     lt: Int
     lte: Int
     gt: Int
@@ -16,8 +16,8 @@ export const typeDefs = `#graphql
   }
 
   input StringFilter {
-    equals: String
-    not: String
+    eq: String
+    nt: String
     lt: String
     lte: String
     gt: String
@@ -28,8 +28,8 @@ export const typeDefs = `#graphql
   }
 
   input BooleanFilter {
-    equals: Boolean
-    not: Boolean
+    eq: Boolean
+    nt: Boolean
   }
   
 interface Res{
