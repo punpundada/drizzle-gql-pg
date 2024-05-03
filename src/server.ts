@@ -28,11 +28,6 @@ export const db = drizzle(client, {
   logger: true,
 });
 
-async function dbConnect() {
-  await client.connect();
-}
-dbConnect();
-
 const server = new ApolloServer<ServerContext>({
   typeDefs: typeDefs,
   resolvers,
@@ -40,6 +35,9 @@ const server = new ApolloServer<ServerContext>({
 });
 
 const serve = async () => {
+  //wait for db connection
+  await client.connect();
+
   await server.start();
 
   app.use(
