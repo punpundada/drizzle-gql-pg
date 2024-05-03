@@ -7,7 +7,7 @@ import { eq } from "drizzle-orm";
 import { hash, compare } from "bcrypt";
 import jwt from "jsonwebtoken";
 import "dotenv/config";
-import { ApolloServerErrorCode } from '@apollo/server/errors';
+import { ApolloServerErrorCode } from "@apollo/server/errors";
 
 const saltRound = 10;
 
@@ -22,7 +22,7 @@ export const registerUser = async (
     const savedUser = await db.insert(userSchema).values(parsedUser).returning();
     return savedUser[0];
   } catch (error) {
-    console.log(error);
+    console.error(error);
     if (error instanceof Error) {
       throw new GraphQLError(error.message, {
         originalError: error,
@@ -56,7 +56,7 @@ export const userLogin = async (_: unknown, { User }: { User: UserLogin }) => {
         },
         process.env.TOKEN_SECRET!,
         {
-          expiresIn: "1m",
+          expiresIn: "60m",
         }
       );
       return {
@@ -82,10 +82,9 @@ export const getUserFromToken = (token: string) => {
   try {
     token = token.split(" ")[1];
     const data: any = jwt.verify(token, process.env.TOKEN_SECRET!);
-    console.log(data);
     return data?.user;
   } catch (e: any) {
-    if(e.message === 'jwt expired' && e.name === "TokenExpiredError"){
+    if (e.message === "jwt expired" || e.name === "TokenExpiredError") {
       throw new GraphQLError("Session Expired", {
         extensions: {
           code: ApolloServerErrorCode.GRAPHQL_VALIDATION_FAILED,
