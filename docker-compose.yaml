@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  postgressDB:
+    image: postgres:16-alpine3.19
+    restart: unless-stopped
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_USER=$POSTGRESDB_USER
+      - POSTGRES_PASSWORD=$POSTGRESDB_ROOT_PASSWORD
+      - POSTGRES_DB=$POSTGRESDB_DATABASE
+    ports:
+      - $POSTGRESDB_LOCAL_PORT:$POSTGRESDB_DOCKER_PORT
+    volumes:
+      - db:/var/lib/postgres
+    
+  backend:
+    depends_on:
+      - postgressDB
+    restart: unless-stopped
+    build: ./
+# build should be the path of docker file relative to the docker-compose.yaml
+
+    env_file: ./.env
+    ports:
+      - "$NODE_LOCAL_PORT:$NODE_DOCKER_PORT"
+    environment:
+      - DB_HOST= postgressDB
+      - DB_NAME= $POSTGRESDB_DATABASE
+      - DB_PORT= $POSTGRESDB_LOCAL_PORT
+      - DB_PASSWORD= $POSTGRESDB_ROOT_PASSWORD
+      - DB_USER = $POSTGRESDB_USER
+    stdin_open: true
+    tty: true
+
+volumes:
+  db:

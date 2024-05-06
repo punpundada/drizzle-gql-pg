@@ -20,7 +20,12 @@ const app = express();
 const httpServer = http.createServer(app);
 
 const client = new Client({
-  connectionString: process.env.DB_CONNECTION_STR!,
+  // connectionString: process.env.DB_CONNECTION_STR!,
+  database:process.env.DB_NAME!,
+  host:process.env.DB_HOST!,
+  port:Number(process.env.DB_PORT!),
+  password:process.env.DB_PASSWORD,
+  user:process.env.DB_USER,
 });
 
 export const db = drizzle(client, {
@@ -58,9 +63,9 @@ const serve = async () => {
 
   try {
     await new Promise<void>((resolve) =>
-      httpServer.listen({ port:process.env.PORT }, resolve)
+      httpServer.listen({ port:process.env.NODE_LOCAL_PORT }, resolve)
     );
-    console.log(`🚀 Server ready at http://localhost:${process.env.PORT}/`);
+    console.log(`🚀 Server ready at http://localhost:${process.env.NODE_LOCAL_PORT}/`);
   } catch (error) {
     console.log(JSON.stringify(error,null,2))
   }
