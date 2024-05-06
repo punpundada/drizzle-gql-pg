@@ -55,15 +55,12 @@ const serve = async () => {
     })
   );
 
-  const startListening=async (port?:number) => {
-    await new Promise<void>((resolve) =>
-      httpServer.listen({ port:port?? process.env.PORT }, resolve)
-    );
-    console.log(`🚀 Server ready at http://localhost:${ port ??process.env.PORT}/`);
-  }
 
   try {
-   await startListening()
+    await new Promise<void>((resolve) =>
+      httpServer.listen({ port:process.env.PORT }, resolve)
+    );
+    console.log(`🚀 Server ready at http://localhost:${process.env.PORT}/`);
   } catch (error) {
     console.log(JSON.stringify(error,null,2))
   }

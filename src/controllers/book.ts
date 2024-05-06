@@ -3,7 +3,11 @@ import { ServerContext } from "../types/ServerContext";
 import { BookInput } from "../types/bookTypes";
 import { db } from "../server";
 import { BookSchema } from "../db/book";
-import { and, eq } from "drizzle-orm/sql/expressions/conditions";
+import { and, eq, } from "drizzle-orm/sql/expressions/conditions";
+
+const getWhere = ()=>{
+
+}
 
 /* QUERIES */
 //?page=2
@@ -18,6 +22,12 @@ export const getBooks = async (_: unknown, __: unknown, { user }: ServerContext)
         },
       });
     }
+
+    const data = db.query.BookSchema.findMany({
+      where:and()
+    })
+    console.log(await data)
+
     return await db.query.BookSchema.findMany({
       where: and(eq(BookSchema.author, user.id)),
     });
@@ -36,6 +46,7 @@ export const addBooks = async (
     throw new GraphQLError("User not Authorized");
   }
   try {
+
     books.forEach((x) => (x.author = user.id));
     return await db.insert(BookSchema).values(books).returning();
   } catch (e) {
