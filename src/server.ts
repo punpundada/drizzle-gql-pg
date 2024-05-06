@@ -58,9 +58,9 @@ const serve = async () => {
 
   try {
     await new Promise<void>((resolve) =>
-      httpServer.listen({ port:process.env.PORT }, resolve)
+      httpServer.listen({ port:process.env.PORT ?? 9999 }, resolve)
     );
-    console.log(`🚀 Server ready at http://localhost:${process.env.PORT}/`);
+    console.log(`🚀 Server ready at http://localhost:${process.env.PORT ?? 9999}/`);
   } catch (error) {
     console.log(JSON.stringify(error,null,2))
   }
