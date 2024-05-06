@@ -28,6 +28,15 @@ const client = new Client({
   user:process.env.DB_USER,
 });
 
+console.log({
+  // connectionString: process.env.DB_CONNECTION_STR!,
+  database:process.env.DB_NAME!,
+  host:process.env.DB_HOST!,
+  port:Number(process.env.DB_PORT!),
+  password:process.env.DB_PASSWORD,
+  user:process.env.DB_USER,
+})
+
 export const db = drizzle(client, {
   schema: { ...userSchema, ...bookSchema, ...groupSchema },
   logger: true,

@@ -1,10 +1,12 @@
-FROM node:20-alpine3.19
+FROM node:20
 
 WORKDIR /app
 
-COPY package*.json .
+COPY ["package*.json", "tsconfig.json",".env", "./"]
 
-RUN npm i
+RUN npm cache clean --force
+
+RUN npm ci
 
 COPY . .
 
